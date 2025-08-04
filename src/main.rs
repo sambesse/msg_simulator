@@ -13,6 +13,8 @@
 * interface
 */
 
+use nix; //for now just do the whole crate
+
 enum packet_type {
     PERIODIC, // sent every period
     ON_CHANGE, // only sent when a data signal changes
@@ -26,11 +28,21 @@ struct data_signal_desc {
 struct message_desc {
     data: Vec<u8>,
     signals: Vec<data_signal_desc>
-    
+    type: packet_type,
+    period: u32,
+    interface: RawFd
 }
 
 fn main() {
     println!("Hello, world!");
-    
 
+    match init_can_interface("can0") {
+    
+    }
+}
+
+/* takes the can interface name e.g. can0 and returns a successfully opened
+* interface fd, else the errno returned by the attempt */ 
+fn init_can_interface(interface_name: &str) -> Result<RawFd, i32> {
+    
 }
