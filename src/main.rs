@@ -12,10 +12,9 @@
 * nice to give the flexibility to allow any type of packet over any
 * interface
 */
-use nix; //for now just do the whole crate
-use nix::fcntl;
-use nix::fcntl::{OFlag, open};
-use std::os::fd::RawFd;
+use embedded_can::{Frame, StandardId};
+use socketcan::{CanFdSocket, CanFrame, Result, Socket};
+use std::env;
 
 enum PacketType {
     Periodic, // sent every period
@@ -32,15 +31,16 @@ struct MessageDesc {
     signals: Vec<DataSignalDesc>,
     packet_type: PacketType,
     period: u32,
-    interface: RawFd,
+    interface: CanFdSocket,
 }
 
 fn main() {
     println!("Hello, world!");
 
-    match init_can_interface("can0") {}
+    let socket_tx = match CanFdSocket::open("can0".into()) {
+        Ok() =>
+    }
 }
 
 /* takes the can interface name e.g. can0 and returns a successfully opened
 * interface fd, else the errno returned by the attempt */
-fn init_can_interface(interface_name: &str) -> Result<RawFd, i32> {}
